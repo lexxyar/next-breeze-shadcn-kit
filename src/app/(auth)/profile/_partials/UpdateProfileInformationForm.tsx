@@ -14,7 +14,7 @@ import {fillFormCorresponding} from "@/lib/utils";
 import {ProfileInformationFormValidation} from "@/lib/validations/profile";
 
 const UpdateProfileInformationForm = () => {
-    const {user, resendEmailVerification} = useAuth({middleware: 'guest'})
+    const {user, resendEmailVerification} = useAuth({middleware: 'auth'})
     const {updateProfileInfo} = useProfile()
 
     const form = useForm<z.infer<typeof ProfileInformationFormValidation>>({
@@ -34,9 +34,9 @@ const UpdateProfileInformationForm = () => {
     }, [user, form])
 
     const onSubmit = async () => {
-        console.log('onSubmit')
         try {
             await updateProfileInfo(form, setStatus)
+            setTimeout(() => setStatus(null), 5000)
         } catch (e) {
             toast.error('Something went wrong!')
         }
@@ -75,17 +75,17 @@ const UpdateProfileInformationForm = () => {
                     />
 
                     {
-                        (user as IUser)?.must_verify_email && (user as IUser)?.email_verified_at === null &&
+                        (user as IUser)?.must_verify_email &&
+                        (user as IUser)?.email_verified_at === null &&
                         <div>
                             <p className="text-sm mt-2 text-gray-800 dark:text-gray-200">
                                 Your email address is unverified.
 
-                                <button
-                                    className="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
-                                    onClick={() => resendEmailVerification(setStatus)}
+                                <Button variant="link"
+                                        onClick={() => resendEmailVerification(setStatus)}
                                 >
                                     Click here to re-send the verification email.
-                                </button>
+                                </Button>
                             </p>
 
                             {status === 'verification-link-sent' && (
@@ -99,7 +99,7 @@ const UpdateProfileInformationForm = () => {
                     <div className="flex items-center gap-4">
                         <Button type="submit"
                                 disabled={isSubmitting}
-                        >Save1</Button>
+                        >Save</Button>
 
                         {status === 'profile-updated' && (
                             <p className="text-sm text-gray-600 dark:text-gray-400">Saved.</p>

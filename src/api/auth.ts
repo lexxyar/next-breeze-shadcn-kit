@@ -66,11 +66,14 @@ export const useAuth = ({
     }
 
     const logout = async () => {
-        if (!error) {
-            await axios.post('/logout').then(() => mutate())
+        try {
+            if (!error) {
+                await axios.post('/logout')
+                await mutate()
+            }
+        } finally {
+            window.location.pathname = '/login'
         }
-
-        window.location.pathname = '/login'
     }
 
     const forgotPassword = async (form: UseFormReturn<any>, setStatus: Dispatch<SetStateAction<any>>) => {
@@ -103,7 +106,6 @@ export const useAuth = ({
     }
 
     useEffect(() => {
-        return;
         if (middleware === 'guest' && redirectIfAuthenticated && user) {
             router.push(redirectIfAuthenticated)
         }
