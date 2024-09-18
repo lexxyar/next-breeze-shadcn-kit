@@ -2,6 +2,7 @@ import {type ClassValue, clsx} from "clsx"
 import {twMerge} from "tailwind-merge"
 import toast from "react-hot-toast";
 import {UseFormReturn} from "react-hook-form";
+import {useEffect, useState} from "react";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs))
@@ -30,4 +31,14 @@ export const fillFormCorresponding = (objSrc: any, form: UseFormReturn<any>) => 
             form.setValue(field as any, objSrc[field])
         }
     })
+}
+
+export const useHasMounted = () => {
+    const [hasMounted, setHasMounted] = useState(false)
+
+    useEffect(() => {
+        setHasMounted(true)
+    }, [])
+
+    return hasMounted
 }
