@@ -2,8 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Button} from "@/components/ui/button";
 import {useTheme} from "next-themes";
 import {MoonIcon, SunIcon} from "@radix-ui/react-icons";
-import {useHasMounted} from "@/lib/utils";
-// import {MoonIcon, SunIcon} from "lucide-react"
+import {useHasMounted} from "@/lib/clientHelpers";
 
 const ThemeSwitcher = () => {
     const hasMounted = useHasMounted()

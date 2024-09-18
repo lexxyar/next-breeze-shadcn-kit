@@ -32,13 +32,3 @@ export const fillFormCorresponding = (objSrc: any, form: UseFormReturn<any>) => 
         }
     })
 }
-
-export const useHasMounted = () => {
-    const [hasMounted, setHasMounted] = useState(false)
-
-    useEffect(() => {
-        setHasMounted(true)
-    }, [])
-
-    return hasMounted
-}
